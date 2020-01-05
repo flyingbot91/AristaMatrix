@@ -29,7 +29,6 @@ import locale
 import time
 import curses
 import random
-from collections import namedtuple
 import sys
 PYTHON2 = sys.version_info.major < 3
 locale.setlocale(locale.LC_ALL, '')
