@@ -46,10 +46,7 @@ RANDOM_CLEANUP = 100
 WINDOW_CHANCE = 1
 WINDOW_SIZE = 25
 WINDOW_ANIMATION_SPEED = 3
-#FPS = 25
 FPS = 55
-SLEEP_MILLIS = 1.0/FPS
-SLEEP_MILLIS = 1.0/FPS
 #USE_COLORS = False
 USE_COLORS = True
 SCREENSAVER_MODE = True
@@ -238,7 +235,8 @@ def main(params):
                window_animation = None
 
         scr.refresh()
-        time.sleep(SLEEP_MILLIS)
+
+        time.sleep(1.0 / params.fps)
         if SCREENSAVER_MODE:
             key_pressed = scr.getch() != -1
             if key_pressed:
@@ -250,6 +248,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '-c', '--dropping-chars', type=int, default=DROPPING_CHARS, help="Number of simultaneous dropping chars")
+    parser.add_argument(
+        '-f', '--fps', type=int, default=FPS, help="Frames per second used in the animation")
     parser.add_argument(
         '-m', '--matrix-chars', type=str, default=MATRIX_CODE_CHARS, help="Set of characters used in the animation")
     args = parser.parse_args()
