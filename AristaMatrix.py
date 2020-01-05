@@ -246,15 +246,16 @@ def main(params):
         steps += 1
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    '-c', '--dropping-chars', type=int, default=DROPPING_CHARS, help="Number of simultaneous dropping chars")
-args = parser.parse_args()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-c', '--dropping-chars', type=int, default=DROPPING_CHARS, help="Number of simultaneous dropping chars")
+    args = parser.parse_args()
 
-try:
-    main(args)
-except KeyboardInterrupt:
-    curses.endwin()
-    curses.curs_set(1)
-    curses.reset_shell_mode()
-    curses.echo()
+    try:
+        main(args)
+    except KeyboardInterrupt:
+        curses.endwin()
+        curses.curs_set(1)
+        curses.reset_shell_mode()
+        curses.echo()
