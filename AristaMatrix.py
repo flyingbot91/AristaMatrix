@@ -25,6 +25,7 @@
 #
 
 from __future__ import unicode_literals
+import argparse
 import locale
 import time
 import curses
@@ -194,7 +195,7 @@ def randint(_min, _max):
         n = r.__next__()
     return (n % (_max - _min)) + _min
 
-def main():
+def main(params):
     steps = 0
     scr = curses.initscr()
     scr.nodelay(1)
@@ -212,7 +213,7 @@ def main():
     height, width = scr.getmaxyx()    
     window_animation = None
     lines = []
-    for i in range(DROPPING_CHARS):
+    for i in range(params.dropping_chars):
         l = FallingChar(width, MIN_SPEED, MAX_SPEED)
         l.y = randint(0, height-2)
         lines.append(l)
@@ -244,8 +245,14 @@ def main():
                 raise KeyboardInterrupt()
         steps += 1
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    '-c', '--dropping-chars', type=int, default=DROPPING_CHARS, help="Number of simultaneous dropping chars")
+args = parser.parse_args()
+
 try:
-    main()
+    main(args)
 except KeyboardInterrupt:
     curses.endwin()
     curses.curs_set(1)
