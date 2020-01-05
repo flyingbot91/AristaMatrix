@@ -64,19 +64,19 @@ COLOR_CHAR_HIGHLIGHT = 2
 COLOR_WINDOW = 3
 
 class FallingChar(object):
-    matrixchr = list(MATRIX_CODE_CHARS)
     normal_attr = curses.A_NORMAL
     highlight_attr = curses.A_REVERSE        
     
-    def __init__(self, width, MIN_SPEED, MAX_SPEED):
+    def __init__(self, width, MIN_SPEED, MAX_SPEED, matrixchr):
         self.x = 0
         self.y = 0
         self.speed = 1
         self.char = ' '
+        self.matrixchr = matrixchr
         self.reset(width, MIN_SPEED, MAX_SPEED)
     
     def reset(self, width, MIN_SPEED, MAX_SPEED):
-        self.char = random.choice(FallingChar.matrixchr).encode(encoding)
+        self.char = random.choice(self.matrixchr).encode(encoding)
         self.x = randint(1, width - 1)
         self.y = 0
         self.speed = randint(MIN_SPEED, MAX_SPEED)
@@ -95,7 +95,7 @@ class FallingChar(object):
                 scr.addstr(self.y, self.x, self.char, curses.A_NORMAL)
                 
             # choose new char and draw it A_REVERSE if not out of bounds
-            self.char = random.choice(FallingChar.matrixchr).encode(encoding)
+            self.char = random.choice(self.matrixchr).encode(encoding)
             self.y += 1
             if not self.out_of_bounds_reset(width, height):
                 if USE_COLORS:
@@ -214,7 +214,7 @@ def main(params):
     window_animation = None
     lines = []
     for i in range(params.dropping_chars):
-        l = FallingChar(width, MIN_SPEED, MAX_SPEED)
+        l = FallingChar(width, MIN_SPEED, MAX_SPEED, params.matrix_chars)
         l.y = randint(0, height-2)
         lines.append(l)
         
@@ -250,6 +250,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '-c', '--dropping-chars', type=int, default=DROPPING_CHARS, help="Number of simultaneous dropping chars")
+    parser.add_argument(
+        '-m', '--matrix-chars', type=str, default=MATRIX_CODE_CHARS, help="Set of characters used in the animation")
     args = parser.parse_args()
 
     try:
