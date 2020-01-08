@@ -50,9 +50,17 @@ FPS = 55
 #USE_COLORS = False
 USE_COLORS = True
 SCREENSAVER_MODE = True
-#MATRIX_CODE_CHARS = "ɀɁɂŧϢϣϤϥϦϧϨϫϬϭϮϯϰϱϢϣϤϥϦϧϨϩϪϫϬϭϮϯϰ߃߄༣༤༥༦༧༩༪༫༬༭༮༯༰༱༲༳༶"
-MATRIX_CODE_CHARS = "Arista"
 
+# Character set
+#MATRIX_CODE_CHARS = "ɀɁɂŧϢϣϤϥϦϧϨϫϬϭϮϯϰϱϢϣϤϥϦϧϨϩϪϫϬϭϮϯϰ߃߄༣༤༥༦༧༩༪༫༬༭༮༯༰༱༲༳༶"
+getchars = lambda start, end: [chr(i) for i in range(start, end)]
+CODE_CHARS_BINARY = (0, 1)
+CODE_CHARS_NUMBERS = getchars(0x30, 0x3A)
+CODE_CHARS_LATIN = getchars(0x41, 0x5B) + getchars(0x61, 0x7B)
+CODE_CHARS_GREEK = getchars(0x370, 0x3FF)
+CODE_CHARS_CYRILLIC = getchars(0x400, 0x50)
+
+ALL_CODE_CHARS = CODE_CHARS_NUMBERS + CODE_CHARS_LATIN + CODE_CHARS_GREEK + CODE_CHARS_CYRILLIC
 ########################################################################
 # CODE
 
@@ -251,7 +259,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-f', '--fps', type=int, default=FPS, help="Frames per second used in the animation")
     parser.add_argument(
-        '-m', '--matrix-chars', type=str, default=MATRIX_CODE_CHARS, help="Set of characters used in the animation")
+        '-m', '--matrix-chars', type=str, default=ALL_CODE_CHARS, help="Set of characters used in the animation")
     args = parser.parse_args()
 
     try:
